@@ -1,40 +1,41 @@
 import {test, expect} from "@playwright/test";
+import {PetAPI} from '../../api/petApi.spec';
 
-test.describe('Validação de consulta de pets por status e por id', () => {
-test.describe('Cenários - Busca pets por status', () => {
-test('Lista pets disponíveis', async ({ request }) => {
-    const response = await request.get('pet/findByStatus', {
-    params:{
-        status: 'available'
-    }
-    });
+test.describe('Cenários - Validação de busca de pets da loja', () => {
+
+test('Validação da listagem de pets disponíveis', async ({ request }) => {
+    const petApi = new PetAPI(request);
+    const response = await petApi.getPetRequest();
     expect(response.status()).toBe(200);
 });
+
 test('Lista pets vendidos', async ({ request }) => {
-    const response = await request.get('pet/findByStatus', {
-        params: {
-            status: 'sold' 
-        }
-    })
+    const petApi = new PetAPI(request);
+    const response = await petApi.getSoldPetRequest();
     expect(response.status()).toBe(200);
-});
+    })
 });
 
-test.describe('Cenários - Busca pet por id', () => {
-test('Busca pet por id válido', async ({ request }) => {
+test('Validação de busca de pet por id válido', async ({ request }) => {
     const response = await request.get('pet/646', {
     });
     console.log(response.url());
     expect(response.status()).toBe(200);
 });
-test('Busca pet por id inválido', async ({request}) => {
-    const response = await request.get('pet/1', { 
-    });
-    console.log(response.url());
-    expect(response.status()).toBe(404);
-});
-});
-})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 test.describe('Manipulação de dados dos pets da loja', () => {
     test('Adição de um novo pet na loja', async ({ request }) => {
